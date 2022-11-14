@@ -1,0 +1,27 @@
+ext {
+    compileSdkVersion = 33
+    minSdkVersion = 21
+    targetSdkVersion = 33
+
+    environment = [
+            java_version: JavaVersion.VERSION_1_8
+    ]
+
+    deps = [
+            app : [
+                    androidx: [
+                            appcompat              : "androidx.appcompat:appcompat:1.5.1",
+                            constraintlayout       : "androidx.constraintlayout:constraintlayout:2.1.4",
+                            core_ktx               : "androidx.core:core-ktx:1.9.0",
+                            navigation_fragment_ktx: "androidx.navigation:navigation-fragment-ktx:2.5.3",
+                            navigation_ui_ktx      : "androidx.navigation:navigation-ui-ktx:2.5.3"
+                    ],
+                    material: "com.google.android.material:material:1.8.0-alpha02"
+            ],
+            test: [
+                    espresso_core: "androidx.test.espresso:espresso-core:3.5.0",
+                    junit        : "junit:junit:4.13.2",
+                    junit_ext    : "androidx.test.ext:junit:1.1.4"
+            ]
+    ]
+}
