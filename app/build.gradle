@@ -2,17 +2,26 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
 }
+apply from: '../dependencies.gradle'
+
+int appPhase = 1
+int feature = 0
+int fixes = 1
+def buildVersion = String.format("%d.%d", appPhase, feature)
+if (fixes > 0) {
+    buildVersion = String.format("%s.%d", buildVersion, fixes)
+}
 
 android {
     namespace 'com.weather'
-    compileSdk 33
+    compileSdk rootProject.compileSdkVersion
 
     defaultConfig {
         applicationId "com.weather"
-        minSdk 23
-        targetSdk 33
+        minSdk rootProject.minSdkVersion
+        targetSdk rootProject.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName buildVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -24,11 +33,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility environment.java_version
+        targetCompatibility environment.java_version
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = environment.java_version
     }
     buildFeatures {
         viewBinding true
@@ -37,13 +46,15 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.8.0-alpha02'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    implementation deps.app.androidx.appcompat
+    implementation deps.app.androidx.core_ktx
+    implementation deps.app.androidx.constraintlayout
+    implementation deps.app.androidx.navigation_fragment_ktx
+    implementation deps.app.androidx.navigation_ui_ktx
+
+    implementation deps.app.material
+
+    testImplementation deps.test.junit
+    androidTestImplementation deps.test.junit_ext
+    androidTestImplementation deps.test.espresso_core
 }
