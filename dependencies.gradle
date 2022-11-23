@@ -13,8 +13,13 @@ ext {
                             appcompat              : "androidx.appcompat:appcompat:1.5.1",
                             constraintlayout       : "androidx.constraintlayout:constraintlayout:2.1.4",
                             core_ktx               : "androidx.core:core-ktx:1.9.0",
+                            core_splashscreen      : "androidx.core:core-splashscreen:1.0.0",
                             navigation_fragment_ktx: "androidx.navigation:navigation-fragment-ktx:2.5.3",
                             navigation_ui_ktx      : "androidx.navigation:navigation-ui-ktx:2.5.3"
+                    ],
+                    google  : [
+                            hilt_android : "com.google.dagger:hilt-android:2.44",
+                            hilt_compiler: "com.google.dagger:hilt-compiler:2.44"
                     ],
                     material: "com.google.android.material:material:1.8.0-alpha02"
             ],
