@@ -1,9 +1,10 @@
-package com.weather.progress
+package com.weather.foundation.dialog
 
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import javax.inject.Inject
 
-class ProgressDialogImpl : ProgressDialog {
+class ProgressDialogImpl @Inject constructor() : ProgressDialog {
 
     companion object {
 

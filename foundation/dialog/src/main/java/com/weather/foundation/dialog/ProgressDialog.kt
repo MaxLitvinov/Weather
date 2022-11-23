@@ -1,4 +1,4 @@
-package com.weather.progress
+package com.weather.foundation.dialog
 
 import androidx.fragment.app.FragmentManager
 

@@ -1,4 +1,4 @@
-package com.weather.progress
+package com.weather.foundation.dialog
 
 import android.app.Dialog
 import android.graphics.Color
@@ -8,7 +8,7 @@ import android.view.Window
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.weather.R
+import com.weather.foundation.dialog.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
