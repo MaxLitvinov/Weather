@@ -1,0 +1,10 @@
+<resources>
+    <dimen name="button_min_height">48dp</dimen>
+
+    <dimen name="size_4_dp">4dp</dimen>
+    <dimen name="size_8_dp">8dp</dimen>
+    <dimen name="size_10_dp">10dp</dimen>
+    <dimen name="size_16_dp">16dp</dimen>
+
+    <dimen name="text_size_16_sp">16sp</dimen>
+</resources>

@@ -1,31 +1,19 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.dagger.hilt.android'
     id 'org.jlleitschuh.gradle.ktlint'
 }
-apply from: '../dependencies.gradle'
-
-int appPhase = 1
-int feature = 0
-int fixes = 0
-def buildVersion = String.format("%d.%d", appPhase, feature)
-if (fixes > 0) {
-    buildVersion = String.format("%s.%d", buildVersion, fixes)
-}
+apply from: '../../dependencies.gradle'
 
 android {
-    namespace 'com.weather'
+    namespace 'com.weather.feature.home_page'
     compileSdk rootProject.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.weather"
         minSdk rootProject.minSdkVersion
         targetSdk rootProject.targetSdkVersion
-        versionCode 1
-        versionName buildVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -40,10 +28,6 @@ android {
         sourceCompatibility environment.java_version
         targetCompatibility environment.java_version
     }
-    // Allow references to generated code
-    kapt {
-        correctErrorTypes true
-    }
     kotlinOptions {
         jvmTarget = environment.java_version
     }
@@ -54,14 +38,11 @@ android {
 
 dependencies {
 
-    implementation project(':feature:home_page')
-
     implementation deps.app.androidx.appcompat
-    implementation deps.app.androidx.core_ktx
-    implementation deps.app.androidx.core_splashscreen
-    implementation deps.app.androidx.constraintlayout
-    implementation deps.app.androidx.navigation_fragment_ktx
-    implementation deps.app.androidx.navigation_ui_ktx
+    implementation deps.app.androidx.fragment_ktx
+
+    implementation deps.app.bumptech.glide
+    annotationProcessor deps.app.bumptech.glide_compiler
 
     implementation deps.app.google.hilt_android
     kapt deps.app.google.hilt_compiler

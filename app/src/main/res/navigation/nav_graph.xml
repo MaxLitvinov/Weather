@@ -8,6 +8,15 @@
     <fragment
         android:id="@+id/RouteFragment"
         android:name="com.weather.route.RouteFragment"
-        tools:layout="@layout/fragment_route" />
+        tools:layout="@layout/fragment_route" >
+        <action
+            android:id="@+id/action_RouteFragment_to_HomePageFragment"
+            app:destination="@id/HomePageFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/HomePageFragment"
+        android:name="com.weather.feature.home_page.HomePageFragment"
+        tools:layout="@layout/fragment_home_page" />
 
 </navigation>

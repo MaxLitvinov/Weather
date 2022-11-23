@@ -3,7 +3,12 @@ buildscript {
     apply from: 'dependencies.gradle'
 
     repositories {
+        google()
         mavenCentral()
+    }
+
+    dependencies {
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.5.3"
     }
 }
 
@@ -13,4 +18,8 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
     id 'com.google.dagger.hilt.android' version '2.44' apply false
     id 'org.jlleitschuh.gradle.ktlint' version '11.0.0'
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }

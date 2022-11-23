@@ -7,6 +7,11 @@ ext {
             java_version: JavaVersion.VERSION_1_8
     ]
 
+    versions = [
+            glide     : "4.14.2",
+            navigation: "2.5.3"
+    ]
+
     deps = [
             app : [
                     androidx: [
@@ -14,8 +19,13 @@ ext {
                             constraintlayout       : "androidx.constraintlayout:constraintlayout:2.1.4",
                             core_ktx               : "androidx.core:core-ktx:1.9.0",
                             core_splashscreen      : "androidx.core:core-splashscreen:1.0.0",
-                            navigation_fragment_ktx: "androidx.navigation:navigation-fragment-ktx:2.5.3",
-                            navigation_ui_ktx      : "androidx.navigation:navigation-ui-ktx:2.5.3"
+                            fragment_ktx           : "androidx.fragment:fragment-ktx:1.5.4",
+                            navigation_fragment_ktx: "androidx.navigation:navigation-fragment-ktx:${versions.navigation}",
+                            navigation_ui_ktx      : "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
+                    ],
+                    bumptech: [
+                            glide         : "com.github.bumptech.glide:glide:4.14.2",
+                            glide_compiler: "com.github.bumptech.glide:compiler:4.14.2"
                     ],
                     google  : [
                             hilt_android : "com.google.dagger:hilt-android:2.44",
