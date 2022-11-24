@@ -12,6 +12,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -19,7 +20,6 @@ import org.junit.Test
 import org.junit.experimental.runners.Enclosed
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import org.mockito.Mockito.verify
 import java.io.IOException
 import java.net.SocketTimeoutException
 
@@ -188,7 +188,7 @@ class IpRepositoryTest {
             val errorCode: Int?,
             val errorMessage: String,
             val fullErrorMessage: String,
-            val networkResponse: NetworkResponse<IpDto, Any>,
+            val networkResponse: NetworkResponse<IpDto, Any>
         )
     }
 }
