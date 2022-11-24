@@ -53,6 +53,9 @@ android {
 
 dependencies {
 
+    implementation project(':foundation:dialog')
+    implementation project(':foundation:resources')
+
     implementation deps.app.androidx.appcompat
     implementation deps.app.androidx.core_ktx
     implementation deps.app.androidx.core_splashscreen

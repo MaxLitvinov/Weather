@@ -14,5 +14,7 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Weather"
 include ':app'
-include ':library'
+include ':foundation:dialog'
+include ':foundation:resources'
 include ':library:locale'
+include ':service:api_client'
