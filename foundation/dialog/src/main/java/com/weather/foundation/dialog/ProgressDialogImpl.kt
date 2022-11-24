@@ -15,6 +15,7 @@ class ProgressDialogImpl @Inject constructor() : ProgressDialog {
         val fragment = ProgressDialogFragment()
         val transaction = manager.beginTransaction()
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        fragment.isCancelable = false
         fragment.show(transaction, PROGRESS_DIALOG_TAG)
     }
 
