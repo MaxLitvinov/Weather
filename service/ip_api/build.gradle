@@ -41,6 +41,7 @@ android {
 dependencies {
 
     implementation project(':service:api_client')
+    implementation project(':service:logger')
 
     implementation deps.app.google.hilt_android
     kapt deps.app.google.hilt_compiler

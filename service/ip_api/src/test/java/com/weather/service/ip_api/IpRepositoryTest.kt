@@ -6,8 +6,11 @@ import com.weather.service.ip_api.data.dto.IpDto
 import com.weather.service.ip_api.domain.mapper.IpDtoMapper
 import com.weather.service.ip_api.domain.model.IpDomainResult
 import com.weather.service.ip_api.domain.repository.IpRepository
+import com.weather.service.logger.Logger
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -16,6 +19,7 @@ import org.junit.Test
 import org.junit.experimental.runners.Enclosed
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.mockito.Mockito.verify
 import java.io.IOException
 import java.net.SocketTimeoutException
 
@@ -90,19 +94,21 @@ class IpRepositoryTest {
         lateinit var api: IpApi
         lateinit var mapper: IpDtoMapper
         lateinit var ipRepository: IpRepository
+        lateinit var logger: Logger
 
         @Before
         fun setup() {
             api = mockk()
             mapper = IpDtoMapper()
-            ipRepository = IpRepository(api, mapper)
+            logger = mockk()
+            ipRepository = IpRepository(api, mapper, logger)
         }
     }
 
     @RunWith(Parameterized::class)
     class ParameterizedTest(
         val testName: String,
-        val testCase: TestCase
+        val testCase: TestCase,
     ) : BaseTest() {
 
         companion object {
@@ -167,8 +173,10 @@ class IpRepositoryTest {
         @Test
         fun test() = runBlocking {
             coEvery { api.fetchLocation() } returns testCase.networkResponse
+            every { logger.report(testCase.fullErrorMessage) } just Runs
 
             val actualResult = ipRepository.fetchLocation()
+            verify { logger.report(testCase.fullErrorMessage) }
 
             val expectedResult = IpDomainResult.Failure(testCase.fullErrorMessage)
 
@@ -180,7 +188,7 @@ class IpRepositoryTest {
             val errorCode: Int?,
             val errorMessage: String,
             val fullErrorMessage: String,
-            val networkResponse: NetworkResponse<IpDto, Any>
+            val networkResponse: NetworkResponse<IpDto, Any>,
         )
     }
 }
