@@ -8,6 +8,7 @@ ext {
     ]
 
     versions = [
+            mockk   : "1.13.2",
             retrofit: "2.9.0"
     ]
 
@@ -18,6 +19,7 @@ ext {
                             constraintlayout       : "androidx.constraintlayout:constraintlayout:2.1.4",
                             core_ktx               : "androidx.core:core-ktx:1.9.0",
                             core_splashscreen      : "androidx.core:core-splashscreen:1.0.0",
+                            datastore              : "androidx.datastore:datastore-preferences:1.0.0",
                             navigation_fragment_ktx: "androidx.navigation:navigation-fragment-ktx:2.5.3",
                             navigation_ui_ktx      : "androidx.navigation:navigation-ui-ktx:2.5.3"
                     ],
@@ -37,9 +39,12 @@ ext {
                     ]
             ],
             test: [
+                    core_testing : "androidx.arch.core:core-testing:2.1.0",
                     espresso_core: "androidx.test.espresso:espresso-core:3.5.0",
                     junit        : "junit:junit:4.13.2",
-                    junit_ext    : "androidx.test.ext:junit:1.1.4"
+                    junit_ext    : "androidx.test.ext:junit:1.1.4",
+                    mockk        : "io.mockk:mockk:${versions.mockk}",
+                    mockk_android: "io.mockk:mockk-android:${versions.mockk}",
             ]
     ]
 }

@@ -1,12 +1,12 @@
 package com.weather.service.open_weather_map.domain.mapper
 
+import com.weather.library.time.TimestampProvider
 import com.weather.service.open_weather_map.data.dto.DailyDto
 import com.weather.service.open_weather_map.data.dto.HourlyDto
 import com.weather.service.open_weather_map.data.dto.WeatherDto
 import com.weather.service.open_weather_map.domain.model.DailyDomainModel
 import com.weather.service.open_weather_map.domain.model.HourlyDomainModel
 import com.weather.service.open_weather_map.domain.model.WeatherDomainModel
-import com.weather.library.time.TimestampProvider
 import javax.inject.Inject
 
 class WeatherDtoMapper @Inject constructor(

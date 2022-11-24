@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.google.gson.Gson
+import com.weather.service.logger.Logger
 import com.weather.service.open_weather_map.BuildConfig
 import com.weather.service.open_weather_map.domain.model.WeatherDomainModel
 import kotlinx.coroutines.flow.first

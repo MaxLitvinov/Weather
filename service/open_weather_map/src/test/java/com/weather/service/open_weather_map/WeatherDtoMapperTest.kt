@@ -1,5 +1,6 @@
 package com.weather.service.open_weather_map
 
+import com.weather.library.time.TimestampProvider
 import com.weather.service.open_weather_map.data.dto.CurrentDto
 import com.weather.service.open_weather_map.data.dto.DailyDto
 import com.weather.service.open_weather_map.data.dto.FeelsLikeDto
@@ -17,7 +18,6 @@ import com.weather.service.open_weather_map.domain.model.FeelsLikeDomainModel
 import com.weather.service.open_weather_map.domain.model.TemperatureDomainModel
 import com.weather.service.open_weather_map.domain.model.WeatherDetailsDomainModel
 import com.weather.service.open_weather_map.domain.model.WeatherDomainModel
-import com.weather.library.time.TimestampProvider
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
