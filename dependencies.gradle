@@ -7,6 +7,10 @@ ext {
             java_version: JavaVersion.VERSION_1_8
     ]
 
+    versions = [
+            retrofit: "2.9.0"
+    ]
+
     deps = [
             app : [
                     androidx: [
