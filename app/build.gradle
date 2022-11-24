@@ -55,6 +55,7 @@ dependencies {
 
     implementation project(':foundation:dialog')
     implementation project(':foundation:resources')
+    implementation project(':service:logger')
 
     implementation deps.app.androidx.appcompat
     implementation deps.app.androidx.core_ktx
