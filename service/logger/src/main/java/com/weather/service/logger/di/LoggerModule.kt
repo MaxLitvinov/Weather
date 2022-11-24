@@ -1,6 +1,5 @@
 package com.weather.service.logger.di
 
-import com.weather.service.logger.BenchmarkLogger
 import com.weather.service.logger.BuildConfig
 import com.weather.service.logger.DebugLogger
 import com.weather.service.logger.Logger
@@ -20,7 +19,7 @@ class LoggerModule {
         timestampProvider: TimestampProvider
     ): Logger = when {
         BuildConfig.DEBUG -> {
-            //BenchmarkLogger(timestampProvider)
+            //  TODO: BenchmarkLogger(timestampProvider)
             DebugLogger()
         }
         else -> ReleaseLogger()

@@ -35,8 +35,8 @@ android {
 
 dependencies {
 
-    // TODO: implementation project(':library:locale')
-    // TODO: implementation project(':library:time')
+    implementation project(':library:locale')
+    implementation project(':library:time')
 
     implementation deps.app.log.timber
 
