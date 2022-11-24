@@ -7,6 +7,10 @@ ext {
             java_version: JavaVersion.VERSION_1_8
     ]
 
+    versions = [
+            retrofit: "2.9.0"
+    ]
+
     deps = [
             app : [
                     androidx: [
@@ -18,13 +22,19 @@ ext {
                             navigation_ui_ktx      : "androidx.navigation:navigation-ui-ktx:2.5.3"
                     ],
                     google  : [
+                            gson         : "com.google.code.gson:gson:2.10",
                             hilt_android : "com.google.dagger:hilt-android:2.44",
                             hilt_compiler: "com.google.dagger:hilt-compiler:2.44"
                     ],
                     log     : [
                             timber: "com.jakewharton.timber:timber:5.0.1"
                     ],
-                    material: "com.google.android.material:material:1.8.0-alpha02"
+                    material: "com.google.android.material:material:1.8.0-alpha02",
+                    squareup: [
+                            converter_gson     : "com.squareup.retrofit2:converter-gson:${versions.retrofit}",
+                            logging_interceptor: "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.6",
+                            retrofit           : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
+                    ]
             ],
             test: [
                     espresso_core: "androidx.test.espresso:espresso-core:3.5.0",
