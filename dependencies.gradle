@@ -7,6 +7,11 @@ ext {
             java_version: JavaVersion.VERSION_1_8
     ]
 
+    versions = [
+            mockk   : "1.13.2",
+            retrofit: "2.9.0"
+    ]
+
     deps = [
             app : [
                     androidx: [
@@ -14,19 +19,32 @@ ext {
                             constraintlayout       : "androidx.constraintlayout:constraintlayout:2.1.4",
                             core_ktx               : "androidx.core:core-ktx:1.9.0",
                             core_splashscreen      : "androidx.core:core-splashscreen:1.0.0",
+                            datastore              : "androidx.datastore:datastore-preferences:1.0.0",
                             navigation_fragment_ktx: "androidx.navigation:navigation-fragment-ktx:2.5.3",
                             navigation_ui_ktx      : "androidx.navigation:navigation-ui-ktx:2.5.3"
                     ],
                     google  : [
+                            gson         : "com.google.code.gson:gson:2.10",
                             hilt_android : "com.google.dagger:hilt-android:2.44",
                             hilt_compiler: "com.google.dagger:hilt-compiler:2.44"
                     ],
-                    material: "com.google.android.material:material:1.8.0-alpha02"
+                    log     : [
+                            timber: "com.jakewharton.timber:timber:5.0.1"
+                    ],
+                    material: "com.google.android.material:material:1.8.0-alpha02",
+                    squareup: [
+                            converter_gson     : "com.squareup.retrofit2:converter-gson:${versions.retrofit}",
+                            logging_interceptor: "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.6",
+                            retrofit           : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
+                    ]
             ],
             test: [
+                    core_testing : "androidx.arch.core:core-testing:2.1.0",
                     espresso_core: "androidx.test.espresso:espresso-core:3.5.0",
                     junit        : "junit:junit:4.13.2",
-                    junit_ext    : "androidx.test.ext:junit:1.1.4"
+                    junit_ext    : "androidx.test.ext:junit:1.1.4",
+                    mockk        : "io.mockk:mockk:${versions.mockk}",
+                    mockk_android: "io.mockk:mockk-android:${versions.mockk}",
             ]
     ]
 }

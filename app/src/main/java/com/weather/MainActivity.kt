@@ -23,21 +23,20 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private val viewModel by viewModels<MainActivityViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen().apply {
-            /* TODO: Keep splash screen displayed?
-            setKeepOnScreenCondition(object : SplashScreen.KeepOnScreenCondition {
-                override fun shouldKeepOnScreen(): Boolean {
-                    log("viewModel.shouldKeepSplashScreenVisible: ${viewModel.shouldKeepSplashScreenVisible}")
-                    return viewModel.shouldKeepSplashScreenVisible
-                }
-            })*/
-            setOnExitAnimationListener { splashScreenViewProvider ->
-                initAnimation(splashScreenViewProvider) {
-                    // TODO: On animation end action
-                }
+        val splashScreen = installSplashScreen()
+        super.onCreate(savedInstanceState)
+        /* TODO: Keep splash screen displayed?
+        splashScreen.setKeepOnScreenCondition(object : SplashScreen.KeepOnScreenCondition {
+            override fun shouldKeepOnScreen(): Boolean {
+                return viewModel.shouldKeepSplashScreenVisible
+            }
+        })*/
+        splashScreen.setOnExitAnimationListener { splashScreenViewProvider ->
+            initAnimation(splashScreenViewProvider) {
+                // TODO: On animation end action
+                viewModel.onAnimationEnd()
             }
         }
-        super.onCreate(savedInstanceState)
     }
 
     private fun initAnimation(
