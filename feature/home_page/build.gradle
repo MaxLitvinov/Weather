@@ -38,6 +38,12 @@ android {
 
 dependencies {
 
+    implementation project(':foundation:dialog')
+    implementation project(':foundation:resources')
+    implementation project(':library:time')
+    implementation project(':service:ip_api')
+    implementation project(':service:open_weather_map')
+
     implementation deps.app.androidx.appcompat
     implementation deps.app.androidx.fragment_ktx
 
