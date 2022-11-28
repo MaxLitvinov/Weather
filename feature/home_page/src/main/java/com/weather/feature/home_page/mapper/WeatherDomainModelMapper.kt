@@ -17,8 +17,12 @@ class WeatherDomainModelMapper @Inject constructor(
             city = city,
             iconUrl = currentWeather.weatherDetails.iconUrl,
             temperature = context.getString(R.string.home_page_temperature_value, currentWeather.temperature),
-            weatherDescription = currentWeather.weatherDetails.mainDescription,
-            dailyForecasts = listMapper.mapToUiModel(dailyForecasts)
+            weatherDescription = currentWeather.weatherDetails.mainDescription
+                .replaceFirstChar { it.titlecase() },
+            dailyForecasts = listMapper.mapToUiModel(
+                currentDayTime = currentWeather.currentTime + timezoneOffset,
+                domainList = dailyForecasts
+            )
         )
     }
 }

@@ -34,4 +34,6 @@ dependencies {
 
     implementation deps.app.google.hilt_android
     kapt deps.app.google.hilt_compiler
+
+    implementation deps.app.material
 }

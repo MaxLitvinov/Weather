@@ -13,6 +13,7 @@ class BenchmarkLogger(
     }
 
     override fun report(message: String) {
+        Timber.tag(this::class.java.simpleName)
         Timber.i(message)
     }
 

@@ -1,7 +1,6 @@
 package com.weather.service.logger.tree
 
 import android.util.Log
-// import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 
 class CrashReportingTree : Timber.Tree() {

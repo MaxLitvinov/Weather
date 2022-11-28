@@ -7,6 +7,7 @@
         android:layout_width="@dimen/size_64_dp"
         android:layout_height="@dimen/size_64_dp"
         android:layout_gravity="center"
-        android:indeterminate="true" />
+        android:indeterminate="true"
+        android:indeterminateTint="@color/blue" />
 
 </FrameLayout>

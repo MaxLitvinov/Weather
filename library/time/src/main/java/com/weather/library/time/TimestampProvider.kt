@@ -17,7 +17,7 @@ class TimestampProvider @Inject constructor(
 
         private const val DAY_MONTH_DAY_NAME_FORMAT = "dd.MM EEEE"
         private const val DAY_MONTH_FORMAT = "dd.MM"
-        private const val FULL_TIME_FORMAT = "hh:mm:ss:SSS"
+        private const val FULL_TIME_FORMAT = "yyyy.MM.dd hh:mm:ss:SSS"
         private const val HOUR_MIN_FORMAT = "HH:mm"
         private const val TIME_ZONE_UTC = "UTC"
         private const val YEAR_MONTH_DAY_FORMAT = "yy.MM.dd"
@@ -28,14 +28,16 @@ class TimestampProvider @Inject constructor(
      *
      * Example: "12:15".
      */
-    fun toTime(dateInSeconds: Long): String = mapTo(dateInSeconds, HOUR_MIN_FORMAT)
+    fun toTime(dateInSeconds: Long): String =
+        mapTo(dateInSeconds, HOUR_MIN_FORMAT)
 
     /**
      * Get date formatted as [DAY_MONTH_FORMAT].
      *
      * Example: "12.09".
      */
-    fun toDayMonth(dateInSeconds: Long): String = mapTo(dateInSeconds, DAY_MONTH_FORMAT)
+    fun toDayMonth(dateInSeconds: Long): String =
+        mapTo(dateInSeconds, DAY_MONTH_FORMAT)
 
     private fun mapTo(dateInSeconds: Long, pattern: String): String {
         val milliseconds = TimeUnit.SECONDS.toMillis(dateInSeconds)
@@ -43,27 +45,37 @@ class TimestampProvider @Inject constructor(
     }
 
     private fun createDateFormat(pattern: String): DateFormat =
-        SimpleDateFormat(pattern, locale).apply {
+        getDateFormat(pattern).apply {
             timeZone = TimeZone.getTimeZone(TIME_ZONE_UTC)
         }
+
+    private fun getDateFormat(pattern: String): DateFormat =
+        SimpleDateFormat(pattern, locale)
 
     /**
      * Get date formatted as [DAY_MONTH_DAY_NAME_FORMAT].
      *
      * Example: "12.09 Monday".
      */
-    fun toDayMonthAndDayName(dateInSeconds: Long): String = mapTo(dateInSeconds, DAY_MONTH_DAY_NAME_FORMAT)
+    fun toDayMonthAndDayName(dateInSeconds: Long): String =
+        mapTo(dateInSeconds, DAY_MONTH_DAY_NAME_FORMAT)
 
     /**
      * Get date formatted as [YEAR_MONTH_DAY_FORMAT].
      *
      * Example: "2022-12-31".
      */
-    fun toYearMonthDay(dateInSeconds: Long): String = mapTo(dateInSeconds, YEAR_MONTH_DAY_FORMAT)
+    fun toYearMonthDay(dateInSeconds: Long): String =
+        mapTo(dateInSeconds, YEAR_MONTH_DAY_FORMAT)
 
     // TODO: Move it from here
-    fun toFileReportNamePattern(date: Date): String = createDateFormat(YEAR_MONTH_DAY_FORMAT).format(date)
+    fun toFileReportNamePattern(date: Date): String =
+        createDateFormat(YEAR_MONTH_DAY_FORMAT).format(date)
 
     // TODO: Move it from here
-    fun toFileReportPattern(date: Date): String = createDateFormat(FULL_TIME_FORMAT).format(date)
+    fun toFileReportPattern(date: Date): String =
+        createDateFormat(FULL_TIME_FORMAT).format(date)
+
+    fun toFileReportPattern(millis: Long): String =
+        getDateFormat(FULL_TIME_FORMAT).format(Date(millis))
 }

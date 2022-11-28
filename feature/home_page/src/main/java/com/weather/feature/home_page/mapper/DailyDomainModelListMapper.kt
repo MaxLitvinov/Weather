@@ -5,6 +5,7 @@ import com.weather.feature.home_page.model.DayForecast
 import com.weather.foundation.resources.R
 import com.weather.library.time.TimestampProvider
 import com.weather.service.open_weather_map.domain.model.DailyDomainModel
+import com.weather.service.open_weather_map.domain.model.TemperatureDomainModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -13,32 +14,24 @@ class DailyDomainModelListMapper @Inject constructor(
     private val timestampProvider: TimestampProvider,
 ) {
 
-    fun mapToUiModel(domainList: List<DailyDomainModel>): List<DayForecast> {
-        val list = mutableListOf<DayForecast>()
+    companion object {
+
+        const val ONE_DAY_IN_SECONDS = 86_400
+    }
+
+    fun mapToUiModel(
+        currentDayTime: Long,
+        domainList: List<DailyDomainModel>
+    ): List<DayForecast> =
         getDayNightTemperatureMaxLengths(domainList).let { (dayTempMaxLength, nightTempMaxLength) ->
             domainList.map { dailyDomainModel ->
-                val dayNightTemp = context.getString(
-                    R.string.home_page_day_night_temperature_values,
-                    getDayTemperature(dailyDomainModel.temperature.day, dayTempMaxLength),
-                    getNightTemperature(dailyDomainModel.temperature.night, nightTempMaxLength)
-                )
-                list.add(
-                    DayForecast(
-                        id = dailyDomainModel.generateId(),
-                        dayName = dailyDomainModel.generateDayName(),
-                        dayNightTemperature = dayNightTemp
-                    )
+                dailyDomainModel.createDayForecast(
+                    currentDayTime,
+                    dayTempMaxLength,
+                    nightTempMaxLength
                 )
             }
         }
-        return list
-    }
-
-    private fun DailyDomainModel.generateId(): Long? =
-        hourlyForecasts?.let { time }
-
-    private fun DailyDomainModel.generateDayName(): String =
-        timestampProvider.toDayMonthAndDayName(time)
 
     private fun getDayNightTemperatureMaxLengths(dailyForecasts: List<DailyDomainModel>): Pair<Int, Int> {
         var dayTempMaxStringLength = 0
@@ -53,30 +46,71 @@ class DailyDomainModelListMapper @Inject constructor(
         return Pair(dayTempMaxStringLength, nightTempMaxStringLength)
     }
 
-    private fun getDayTemperature(temperature: Float, maxStringLength: Int): String {
-        val currentDayTempLength = temperature.toString().length
-        var dayValue: String = context.getString(R.string.home_page_temperature_value, temperature)
-        if (currentDayTempLength < maxStringLength) {
-            val lengthDifference = maxStringLength - currentDayTempLength
-            for (spaceCount in 0..lengthDifference) {
-                dayValue += " "
-            }
+    private fun TemperatureDomainModel.getDayNightTemperature(
+        dayMaxLength: Int,
+        nightMaxLength: Int
+    ) = context.getString(
+        R.string.home_page_day_night_temperature_values,
+        transformDayTemperature(day, dayMaxLength),
+        transformNightTemperature(night, nightMaxLength)
+    )
+
+    private fun transformDayTemperature(sourceTemperature: Float, maxStringLength: Int): String =
+        sourceTemperature.getTemperature(maxStringLength) { temperature, spaces ->
+            temperature + spaces
         }
-        return dayValue
+
+    private fun Float.getTemperature(
+        maxLength: Int,
+        action: (temperature: String, spaces: String) -> String
+    ): String {
+        val currentLength = toString().length
+        var resultValue: String = context.getString(R.string.home_page_temperature_value, this)
+        if (currentLength < maxLength) {
+            val lengthDifference = maxLength - currentLength
+            resultValue = action(resultValue, " ".repeat(lengthDifference))
+        }
+        return resultValue
     }
 
-    private fun getNightTemperature(temperature: Float, maxStringLength: Int): String {
-        val currentNightTempLength = temperature.toString().length
-        var nightValue: String =
-            context.getString(R.string.home_page_temperature_value, temperature)
-        if (currentNightTempLength < maxStringLength) {
-            val lengthDifference = maxStringLength - currentNightTempLength
-            var spaces = ""
-            for (spaceCount in 0..lengthDifference) {
-                spaces += " "
-            }
-            nightValue = spaces + nightValue
+    private fun transformNightTemperature(sourceTemperature: Float, maxStringLength: Int): String =
+        sourceTemperature.getTemperature(maxStringLength) { value, spaces ->
+            spaces + value
         }
-        return nightValue
+
+    private fun DailyDomainModel.createDayForecast(
+        currentDayTime: Long,
+        dayTempMaxLength: Int,
+        nightTempMaxLength: Int
+    ) = DayForecast(
+        id = generateId(),
+        dayName = generateDayName(currentDayTime),
+        dayNightTemperature = temperature.getDayNightTemperature(
+            dayTempMaxLength,
+            nightTempMaxLength
+        )
+    )
+
+    private fun DailyDomainModel.generateId(): Long? =
+        hourlyForecasts?.let { time }
+
+    private fun DailyDomainModel.generateDayName(currentDayTime: Long): String {
+        val dayName = timestampProvider.toDayMonthAndDayName(time)
+        return when {
+            isToday(currentDayTime, dayName) -> context.getString(R.string.home_page_today)
+            isTomorrow(currentDayTime, dayName) -> context.getString(R.string.home_page_tomorrow)
+            else -> dayName
+        }
+    }
+
+    private fun isToday(currentTime: Long, dayNameToCompare: String): Boolean {
+        val currentDayName = timestampProvider.toDayMonthAndDayName(currentTime)
+        return currentDayName == dayNameToCompare
+    }
+
+    private fun isTomorrow(currentTimeInSeconds: Long, dayNameToCompare: String): Boolean {
+        val tomorrowTime = currentTimeInSeconds + ONE_DAY_IN_SECONDS
+        val tomorrowDayName = timestampProvider.toDayMonthAndDayName(tomorrowTime)
+        return tomorrowDayName == dayNameToCompare
     }
 }

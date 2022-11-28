@@ -3,41 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_round_rectangle"
+    android:background="@drawable/selector_button"
     android:minHeight="@dimen/button_min_height"
     android:orientation="horizontal"
     android:paddingStart="@dimen/size_4_dp"
     android:paddingEnd="@dimen/size_4_dp"
-    tools:background="#808080">
+    tools:background="@color/blue">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_day_name"
+        style="@style/WeatherApp.Widget.TextView.Shadowed"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center_vertical|start"
+        android:paddingStart="@dimen/size_4_dp"
         android:paddingEnd="@dimen/size_4_dp"
-        android:shadowColor="@color/white"
-        android:shadowDx="3"
-        android:shadowDy="3"
-        android:shadowRadius="5"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_16_sp"
         tools:text="Today" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_day_night_temperature"
+        style="@style/WeatherApp.Widget.TextView.Shadowed"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center_vertical|end"
         android:paddingEnd="@dimen/size_4_dp"
-        android:shadowColor="@color/white"
-        android:shadowDx="3"
-        android:shadowDy="3"
-        android:shadowRadius="5"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_16_sp"
         tools:drawableEnd="@drawable/ic_chevron_right"
         tools:drawablePadding="@dimen/size_10_dp"
         tools:text="0.56°C / 0.57°C" />

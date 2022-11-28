@@ -5,7 +5,7 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.weather.feature.home_page.R
+import com.weather.foundation.resources.R
 
 class DayListDecoration(context: Context) : DividerItemDecoration(context, 0) {
 

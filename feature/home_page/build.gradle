@@ -42,6 +42,7 @@ dependencies {
     implementation project(':foundation:resources')
     implementation project(':library:time')
     implementation project(':service:ip_api')
+    implementation project(':service:logger')
     implementation project(':service:open_weather_map')
 
     implementation deps.app.androidx.appcompat
@@ -54,6 +55,10 @@ dependencies {
     kapt deps.app.google.hilt_compiler
 
     implementation deps.app.material
+
+    implementation deps.test.core_testing
+    implementation deps.test.mockk
+    implementation deps.test.mockk_android
 
     testImplementation deps.test.junit
     androidTestImplementation deps.test.junit_ext

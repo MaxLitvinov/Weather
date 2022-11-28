@@ -1,10 +1,11 @@
 package com.weather.feature.home_page.adapter
 
 import androidx.core.content.ContextCompat
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.RecyclerView
-import com.weather.feature.home_page.R
 import com.weather.feature.home_page.databinding.ItemDayBinding
 import com.weather.feature.home_page.model.DayForecast
+import com.weather.foundation.resources.R
 
 class DayViewHolder(
     private val binding: ItemDayBinding,
@@ -14,15 +15,15 @@ class DayViewHolder(
     fun bind(model: DayForecast) = with(binding) {
         tvDayName.text = model.dayName
         tvDayNightTemperature.text = model.dayNightTemperature
-        model.id?.let { id ->
-            setAsButton { onItemClick(id) }
-        } ?: {
+        if (null != model.id) {
+            setAsButton { onItemClick(model.id) }
+        } else {
             setAsItem()
         }
     }
 
     private fun ItemDayBinding.setAsButton(action: () -> Unit) {
-        val chevronRightIcon = ContextCompat.getDrawable(root.context, R.drawable.ic_chevron_right)
+        val chevronRightIcon = ContextCompat.getDrawable(root.context, com.weather.feature.home_page.R.drawable.ic_chevron_right)
         tvDayNightTemperature.setCompoundDrawablesWithIntrinsicBounds(
             null,
             null,
@@ -34,12 +35,16 @@ class DayViewHolder(
         tvDayNightTemperature.compoundDrawablePadding = iconPadding
 
         root.setOnClickListener { action() }
+        root.isEnabled = true
     }
 
-    private fun ItemDayBinding.setAsItem() {
-        tvDayNightTemperature.compoundDrawablePadding = 0
-        tvDayNightTemperature.setCompoundDrawables(null, null, null, null)
+    private fun ItemDayBinding.setAsItem() = with(tvDayNightTemperature) {
+        compoundDrawablePadding = 0
+        setCompoundDrawables(null, null, null, null)
+        val chevronRightWidthAndPadding = context.resources.getDimensionPixelOffset(R.dimen.size_19_dp)
+        updatePadding(right = paddingRight + chevronRightWidthAndPadding)
 
         root.setOnClickListener(null)
+        root.isEnabled = false
     }
 }

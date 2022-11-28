@@ -60,7 +60,7 @@ class HomePageFragment : Fragment(R.layout.fragment_home_page) {
 
                         Glide.with(requireContext())
                             .load(iconUrl)
-                            .centerInside()
+                            .centerCrop()
                             .into(binding.ivWeatherIcon)
 
                         progressDialog.hide(childFragmentManager)
