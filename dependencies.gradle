@@ -24,6 +24,11 @@ ext {
                             navigation_ui_ktx      : "androidx.navigation:navigation-ui-ktx:2.5.3"
                     ],
                     google  : [
+                            firebase     : [
+                                    bom            : "com.google.firebase:firebase-bom:31.1.0",
+                                    analytics_ktx  : "com.google.firebase:firebase-analytics-ktx",
+                                    crashlytics_ndk: "com.google.firebase:firebase-crashlytics-ndk"
+                            ],
                             gson         : "com.google.code.gson:gson:2.10",
                             hilt_android : "com.google.dagger:hilt-android:2.44",
                             hilt_compiler: "com.google.dagger:hilt-compiler:2.44"
