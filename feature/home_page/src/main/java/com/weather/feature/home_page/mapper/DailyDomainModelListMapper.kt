@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class DailyDomainModelListMapper @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val timestampProvider: TimestampProvider,
+    private val timestampProvider: TimestampProvider
 ) {
 
     companion object {
