@@ -6,6 +6,7 @@ plugins {
     id 'org.jlleitschuh.gradle.ktlint'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.firebase-perf'
 }
 apply from: '../dependencies.gradle'
 
@@ -69,6 +70,8 @@ dependencies {
     implementation deps.app.androidx.navigation_ui_ktx
 
     implementation deps.app.google.firebase.analytics_ktx
+    implementation deps.app.google.firebase.crashlytics_ndk
+    implementation deps.app.google.firebase.perf_ktx
 
     implementation deps.app.google.hilt_android
     kapt deps.app.google.hilt_compiler
