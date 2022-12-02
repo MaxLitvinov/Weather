@@ -33,7 +33,21 @@ android {
     }
 
     buildTypes {
+        debug {
+            manifestPlaceholders = [
+                    firebase_performance_logcat_enabled    : "false",
+                    firebase_crashlytics_collection_enabled: "false"
+            ]
+            FirebasePerformance {
+                // Set this flag to 'false' to disable @AddTrace annotation processing and
+                // automatic monitoring of HTTP/S network requests
+                // for a specific build variant at compile time.
+                // https://firebase.google.com/docs/perf-mon/disable-sdk?platform=android#extension-property-flag
+                instrumentationEnabled false
+            }
+        }
         release {
+            manifestPlaceholders = [firebase_performance_logcat_enabled: "true", firebase_crashlytics_collection_enabled: "true"]
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -70,7 +84,7 @@ dependencies {
     implementation deps.app.androidx.navigation_ui_ktx
 
     implementation deps.app.google.firebase.analytics_ktx
-    implementation deps.app.google.firebase.crashlytics_ndk
+    implementation deps.app.google.firebase.crashlytics_ktx
     implementation deps.app.google.firebase.perf_ktx
 
     implementation deps.app.google.hilt_android
