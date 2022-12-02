@@ -4,6 +4,9 @@ plugins {
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
     id 'org.jlleitschuh.gradle.ktlint'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.firebase-perf'
 }
 apply from: '../dependencies.gradle'
 
@@ -30,7 +33,21 @@ android {
     }
 
     buildTypes {
+        debug {
+            manifestPlaceholders = [
+                    firebase_performance_logcat_enabled    : "false",
+                    firebase_crashlytics_collection_enabled: "false"
+            ]
+            FirebasePerformance {
+                // Set this flag to 'false' to disable @AddTrace annotation processing and
+                // automatic monitoring of HTTP/S network requests
+                // for a specific build variant at compile time.
+                // https://firebase.google.com/docs/perf-mon/disable-sdk?platform=android#extension-property-flag
+                instrumentationEnabled false
+            }
+        }
         release {
+            manifestPlaceholders = [firebase_performance_logcat_enabled: "true", firebase_crashlytics_collection_enabled: "true"]
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -53,6 +70,8 @@ android {
 
 dependencies {
 
+    implementation platform(deps.app.google.firebase.bom)
+
     implementation project(':foundation:dialog')
     implementation project(':foundation:resources')
     implementation project(':service:logger')
@@ -63,6 +82,10 @@ dependencies {
     implementation deps.app.androidx.constraintlayout
     implementation deps.app.androidx.navigation_fragment_ktx
     implementation deps.app.androidx.navigation_ui_ktx
+
+    implementation deps.app.google.firebase.analytics_ktx
+    implementation deps.app.google.firebase.crashlytics_ktx
+    implementation deps.app.google.firebase.perf_ktx
 
     implementation deps.app.google.hilt_android
     kapt deps.app.google.hilt_compiler
