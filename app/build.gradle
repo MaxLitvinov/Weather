@@ -33,9 +33,27 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        debug {
+            storeFile file("keys/weather_debug.key")
+            storePassword "HlQq&sxu7^gISn9kNUno7SnG4gyUKN6Y"
+            keyAlias "weather-debug-key"
+            keyPassword "HlQq&sxu7^gISn9kNUno7SnG4gyUKN6Y"
+        }
+        release {
+            storeFile file("keys/weather_release.key")
+            storePassword "0H@V3*mNI4AKV1DpL&5uksbFNJ89O@ct"
+            keyAlias "weather-release-key"
+            keyPassword "0H@V3*mNI4AKV1DpL&5uksbFNJ89O@ct"
+        }
+    }
+
     buildTypes {
         debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
             manifestPlaceholders = [
+                    appNameSuffix                          : "_debug",
                     firebase_performance_logcat_enabled    : "false",
                     firebase_crashlytics_collection_enabled: "false"
             ]
@@ -46,11 +64,19 @@ android {
                 // https://firebase.google.com/docs/perf-mon/disable-sdk?platform=android#extension-property-flag
                 instrumentationEnabled false
             }
+
+            signingConfig signingConfigs.debug
         }
         release {
-            manifestPlaceholders = [firebase_performance_logcat_enabled: "true", firebase_crashlytics_collection_enabled: "true"]
+            manifestPlaceholders = [
+                    appNameSuffix                          : "",
+                    firebase_performance_logcat_enabled    : "true",
+                    firebase_crashlytics_collection_enabled: "true"
+            ]
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -73,6 +99,28 @@ android {
             pickFirsts += ['META-INF/LICENSE.md', 'META-INF/LICENSE-notice.md']
         }
     }
+    applicationVariants.all { variant ->
+        renameApk(variant)
+    }
+}
+
+def renameApk(variant) {
+    variant.outputs.each { output ->
+        variant.outputs.all {
+            def versionName = variant.versionName
+            def hashCode = getCommitHashCode()
+            outputFileName = "Weather_${versionName}-${hashCode}.apk"
+        }
+    }
+}
+
+def getCommitHashCode() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
 }
 
 dependencies {
