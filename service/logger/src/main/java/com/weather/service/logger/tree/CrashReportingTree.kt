@@ -1,7 +1,7 @@
 package com.weather.service.logger.tree
 
 import android.util.Log
-// import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 
 class CrashReportingTree : Timber.Tree() {
@@ -14,14 +14,14 @@ class CrashReportingTree : Timber.Tree() {
     override fun log(priority: Int, t: Throwable?) =
         doAfterCheck(priority) {
             if (t != null) {
-                // TODO: FirebaseCrashlytics.getInstance().recordException(t)
+                FirebaseCrashlytics.getInstance().recordException(t)
             } else {
-                // TODO: FirebaseCrashlytics.getInstance().log(UNKNOWN_ERROR)
+                FirebaseCrashlytics.getInstance().log(UNKNOWN_ERROR)
             }
         }
 
     private fun doAfterCheck(priority: Int, action: () -> Unit) {
-        if (priority == Log.VERBOSE || priority == Log.DEBUG) {
+        if (priority != Log.VERBOSE && priority != Log.DEBUG) {
             action()
         }
     }
@@ -29,9 +29,9 @@ class CrashReportingTree : Timber.Tree() {
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) =
         doAfterCheck(priority) {
             if (t != null) {
-                // TODO: FirebaseCrashlytics.getInstance().recordException(t)
+                FirebaseCrashlytics.getInstance().recordException(t)
             } else {
-                // TODO: FirebaseCrashlytics.getInstance().log(message)
+                FirebaseCrashlytics.getInstance().log(message)
             }
         }
 }

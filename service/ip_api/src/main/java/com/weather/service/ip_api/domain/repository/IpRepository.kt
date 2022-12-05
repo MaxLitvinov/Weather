@@ -18,17 +18,16 @@ class IpRepository @Inject constructor(
         when (val response: NetworkResponse<IpDto, Any> = api.fetchLocation()) {
             is NetworkResponse.Success ->
                 mapper.mapToDomain(response.body)
-            is NetworkResponse.ServerError -> {
-                logger.report("Server error code - ${response.code}, message - ${response.error?.message}")
-                IpDomainResult.Failure("Server error code - ${response.code}, message - ${response.error?.message}")
-            }
-            is NetworkResponse.NetworkError -> {
-                logger.report("Network error body - ${response.body}, message - ${response.error.message}")
-                IpDomainResult.Failure("Network error body - ${response.body}, message - ${response.error.message}")
-            }
-            is NetworkResponse.UnknownError -> {
-                logger.report("Unknown error code - ${response.code}")
-                IpDomainResult.Failure("Unknown error code - ${response.code}")
-            }
+            is NetworkResponse.ServerError ->
+                handleError("Server error code - ${response.code}, message - ${response.error?.message}")
+            is NetworkResponse.NetworkError ->
+                handleError("Network error body - ${response.body}, message - ${response.error.message}")
+            is NetworkResponse.UnknownError ->
+                handleError("Unknown error code - ${response.code}")
         }
+
+    private fun handleError(errorMessage: String): IpDomainResult.Failure {
+        logger.report(errorMessage)
+        return IpDomainResult.Failure(errorMessage)
+    }
 }

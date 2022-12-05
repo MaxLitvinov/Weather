@@ -10,10 +10,11 @@ class ReleaseLogger : Logger {
     }
 
     override fun report(message: String) {
-        // TODO: FirebaseCrashlytics.getInstance().log(message)
+        Timber.tag(ReleaseLogger::class.java.simpleName)
+        Timber.e(message)
     }
 
     override fun report(throwable: Throwable) {
-        // TODO: FirebaseCrashlytics.getInstance().recordException(throwable)
+        Timber.e(throwable)
     }
 }

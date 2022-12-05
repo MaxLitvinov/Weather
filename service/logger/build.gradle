@@ -35,8 +35,12 @@ android {
 
 dependencies {
 
+    implementation platform(deps.app.google.firebase.bom)
+
     implementation project(':library:locale')
     implementation project(':library:time')
+
+    implementation deps.app.google.firebase.crashlytics_ktx
 
     implementation deps.app.log.timber
 
