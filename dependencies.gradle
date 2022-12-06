@@ -1,0 +1,63 @@
+ext {
+    compileSdkVersion = 33
+    minSdkVersion = 21
+    targetSdkVersion = 33
+
+    environment = [
+            java_version: JavaVersion.VERSION_1_8
+    ]
+
+    versions = [
+            glide     : "4.14.2",
+            mockk   : "1.13.2",
+            navigation: "2.5.3",
+            retrofit: "2.9.0"
+    ]
+
+    deps = [
+            app : [
+                    androidx: [
+                            appcompat              : "androidx.appcompat:appcompat:1.5.1",
+                            constraintlayout       : "androidx.constraintlayout:constraintlayout:2.1.4",
+                            core_ktx               : "androidx.core:core-ktx:1.9.0",
+                            core_splashscreen      : "androidx.core:core-splashscreen:1.0.0",
+                            datastore              : "androidx.datastore:datastore-preferences:1.0.0",
+                            fragment_ktx           : "androidx.fragment:fragment-ktx:1.5.4",
+                            navigation_fragment_ktx: "androidx.navigation:navigation-fragment-ktx:${versions.navigation}",
+                            navigation_ui_ktx      : "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
+                    ],
+                    bumptech: [
+                            glide         : "com.github.bumptech.glide:glide:4.14.2",
+                            glide_compiler: "com.github.bumptech.glide:compiler:4.14.2"
+                    ],
+                    google  : [
+                            firebase     : [
+                                    bom            : "com.google.firebase:firebase-bom:31.1.0",
+                                    analytics_ktx  : "com.google.firebase:firebase-analytics-ktx",
+                                    crashlytics_ktx: "com.google.firebase:firebase-crashlytics-ktx",
+                                    perf_ktx       : "com.google.firebase:firebase-perf-ktx"
+                            ],
+                            gson         : "com.google.code.gson:gson:2.10",
+                            hilt_android : "com.google.dagger:hilt-android:2.44",
+                            hilt_compiler: "com.google.dagger:hilt-compiler:2.44"
+                    ],
+                    log     : [
+                            timber: "com.jakewharton.timber:timber:5.0.1"
+                    ],
+                    material: "com.google.android.material:material:1.8.0-alpha02",
+                    squareup: [
+                            converter_gson     : "com.squareup.retrofit2:converter-gson:${versions.retrofit}",
+                            logging_interceptor: "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.6",
+                            retrofit           : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
+                    ]
+            ],
+            test: [
+                    core_testing : "androidx.arch.core:core-testing:2.1.0",
+                    espresso_core: "androidx.test.espresso:espresso-core:3.5.0",
+                    junit        : "junit:junit:4.13.2",
+                    junit_ext    : "androidx.test.ext:junit:1.1.4",
+                    mockk        : "io.mockk:mockk:${versions.mockk}",
+                    mockk_android: "io.mockk:mockk-android:${versions.mockk}",
+            ]
+    ]
+}

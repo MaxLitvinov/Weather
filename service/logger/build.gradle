@@ -1,0 +1,49 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+    id 'org.jlleitschuh.gradle.ktlint'
+}
+apply from: '../../dependencies.gradle'
+
+android {
+    namespace 'com.weather.service.logger'
+    compileSdk rootProject.compileSdkVersion
+
+    defaultConfig {
+        minSdk rootProject.minSdkVersion
+        targetSdk rootProject.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility environment.java_version
+        targetCompatibility environment.java_version
+    }
+    kotlinOptions {
+        jvmTarget = environment.java_version
+    }
+}
+
+dependencies {
+
+    implementation platform(deps.app.google.firebase.bom)
+
+    implementation project(':library:locale')
+    implementation project(':library:time')
+
+    implementation deps.app.google.firebase.crashlytics_ktx
+
+    implementation deps.app.log.timber
+
+    implementation deps.app.google.hilt_android
+    kapt deps.app.google.hilt_compiler
+}

@@ -1,61 +1,94 @@
 package com.weather
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.view.View
+import android.view.animation.AnticipateInterpolator
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import com.weather.databinding.ActivityMainBinding
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.splashscreen.SplashScreenViewProvider
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+    companion object {
+
+        private const val SPLASH_SCREEN_ANIMATION_DURATION = 2200L
+    }
+
+    private val viewModel by viewModels<MainActivityViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        setSupportActionBar(binding.toolbar)
-
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAnchorView(R.id.fab)
-                .setAction("Action", null).show()
+        /* TODO: Keep splash screen displayed?
+        splashScreen.setKeepOnScreenCondition(object : SplashScreen.KeepOnScreenCondition {
+            override fun shouldKeepOnScreen(): Boolean {
+                return viewModel.shouldKeepSplashScreenVisible
+            }
+        })*/
+        splashScreen.setOnExitAnimationListener { splashScreenViewProvider ->
+            initAnimation(splashScreenViewProvider) {
+                // TODO: On animation end action
+                viewModel.onAnimationEnd()
+            }
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
+    private fun initAnimation(
+        provider: SplashScreenViewProvider,
+        onAnimationEnd: () -> Unit,
+    ) = with(provider) {
+        val rotation = rotationAnimation(iconView)
+        val moveLeft = moveLeftAnimation(view, iconView)
+        val fadeOut = fadeOutAnimation(iconView)
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+        AnimatorSet().apply {
+            play(rotation).with(moveLeft)
+            play(fadeOut)
+            doOnEnd {
+                remove()
+                onAnimationEnd()
+            }
+            start()
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-            || super.onSupportNavigateUp()
-    }
+    private fun rotationAnimation(targetView: View): ObjectAnimator =
+        ObjectAnimator.ofFloat(
+            targetView,
+            View.ROTATION,
+            0F,
+            -3600F
+        ).apply {
+            interpolator = AnticipateInterpolator()
+            duration = SPLASH_SCREEN_ANIMATION_DURATION
+        }
+
+    private fun moveLeftAnimation(view: View, iconView: View): ObjectAnimator =
+        ObjectAnimator.ofFloat(
+            iconView,
+            View.TRANSLATION_X,
+            0F,
+            -(view.width.toFloat() + iconView.width.toFloat() / 2)
+        ).apply {
+            interpolator = AnticipateInterpolator()
+            duration = SPLASH_SCREEN_ANIMATION_DURATION
+        }
+
+    private fun fadeOutAnimation(targetView: View): ObjectAnimator =
+        ObjectAnimator.ofFloat(
+            targetView,
+            View.ALPHA,
+            1F,
+            1F,
+            1F,
+            0F
+        ).apply {
+            duration = SPLASH_SCREEN_ANIMATION_DURATION
+        }
 }
